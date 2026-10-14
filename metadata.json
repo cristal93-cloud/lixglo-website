@@ -1,0 +1,6 @@
+{
+  "name": "LixGlo Ventures — Smarter Solar Energy",
+  "description": "Modern solar energy installation, consultation, and maintenance for Kenyan homes and businesses. Founded in 2017 with T1–T3 certified solar engineering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
