@@ -23,7 +23,7 @@ export const SolarCalculator: React.FC<SolarCalculatorProps> = ({
 }) => {
   const [customerType, setCustomerType] = useState<CustomerType>(initialCustomerType);
   const [monthlyBillKes, setMonthlyBillKes] = useState<number>(15000);
-  const [priority, setPriority] = useState<CustomerPriority>('both');
+  const [priority, setPriority] = useState<CustomerPriority>('savings'); // Defaulted to savings
 
   const minBill = customerType === 'home' ? 3000 : 10000;
   const maxBill = customerType === 'home' ? 100000 : 500000;
@@ -158,13 +158,13 @@ export const SolarCalculator: React.FC<SolarCalculatorProps> = ({
               {[
                 { id: 'savings' as CustomerPriority, label: 'LOWER MY BILL' },
                 { id: 'backup' as CustomerPriority, label: 'BACKUP POWER' },
-                { id: 'both' as CustomerPriority, label: 'BOTH' },
+                { id: 'offgrid' as CustomerPriority, label: 'GO OFF-GRID' },
               ].map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => setPriority(item.id)}
-                  className={`py-3 sm:py-3.5 px-3 rounded-xl border-2 text-center text-xs sm:text-sm font-bold transition-all cursor-pointer min-h-[46px] flex items-center justify-center ${
+                  className={`py-3 sm:py-3.5 px-3 rounded-xl border-2 text-center text-xs sm:text-[13px] font-bold transition-all cursor-pointer min-h-[46px] flex items-center justify-center ${
                     priority === item.id
                       ? 'border-[#020304] bg-[#020304] text-white'
                       : 'border-neutral-200 bg-white text-neutral-700 hover:border-neutral-300'
@@ -221,7 +221,7 @@ export const SolarCalculator: React.FC<SolarCalculatorProps> = ({
                 type="button"
                 onClick={() => {
                   setMonthlyBillKes(15000);
-                  setPriority('both');
+                  setPriority('savings');
                 }}
                 className="text-xs text-neutral-500 hover:text-black flex items-center gap-1.5 transition-colors cursor-pointer py-2 min-h-[36px]"
               >

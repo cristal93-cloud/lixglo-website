@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -52,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#020304] selection:bg-[#0B9DD6]/20 selection:text-[#020304] flex flex-col font-sans antialiased">
+    <div className="min-h-screen bg-[#FAFAFA] text-[#020304] selection:bg-[#0B9DD6]/20 selection:text-[#020304] flex flex-col font-sans antialiased">
       {/* Clean Light Navigation */}
       <Header onOpenEstimate={scrollToCalculator} />
 

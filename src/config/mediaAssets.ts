@@ -1,10 +1,5 @@
 /**
  * Centralized LixGlo Media Asset Registry
- * 
- * Replace any placeholder URL or empty string with your real image or video file paths
- * (e.g., place images in /public/assets/ and point to '/assets/hero.jpg').
- * When an image or video URL is provided, the MediaPlaceholder component renders it directly.
- * If empty or loading fails, an intentional, bright, sunlit architectural visual is displayed.
  */
 
 export interface MediaItem {
@@ -12,6 +7,7 @@ export interface MediaItem {
   title: string;
   description: string;
   imageUrl?: string;
+  imageUrls?: string[];
   videoUrl?: string;
   aspectRatio?: '16/9' | '4/3' | '16/10' | '1/1';
 }
@@ -21,9 +17,15 @@ export const MEDIA_ASSETS = {
     id: 'hero-media',
     title: 'Modern Kenyan Solar Rooftop',
     description: 'Daylight architectural photography of contemporary home with clean rooftop solar array under Nairobi sun.',
-    // Set to your real image file path, e.g. '/assets/lixglo-hero.jpg'
     imageUrl: '',
-    // Or set to your brand video path, e.g. '/assets/lixglo-reel.mp4'
+    // Marquee array containing all 25 images
+    imageUrls: [
+      '/assets/1.jpg', '/assets/2.jpg', '/assets/3.jpg', '/assets/4.jpg', '/assets/5.jpg',
+      '/assets/6.jpg', '/assets/7.jpg', '/assets/8.jpg', '/assets/9.jpg', '/assets/10.jpg',
+      '/assets/11.jpg', '/assets/12.jpg', '/assets/13.jpg', '/assets/14.jpg', '/assets/15.jpg',
+      '/assets/16.jpg', '/assets/17.jpg', '/assets/18.jpg', '/assets/19.jpg', '/assets/20.jpg',
+      '/assets/21.jpg', '/assets/22.jpg', '/assets/23.jpg', '/assets/24.jpg', '/assets/25.jpg'
+    ],
     videoUrl: '',
     aspectRatio: '16/9',
   },

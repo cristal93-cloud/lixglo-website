@@ -12,7 +12,7 @@
 @layer base {
   body {
     font-family: var(--font-sans);
-    background-color: #FFFFFF;
+    background-color: #FAFAFA;
     color: #020304;
   }
 }
@@ -22,7 +22,7 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFFFF;
+  background: #FAFAFA;
 }
 ::-webkit-scrollbar-thumb {
   background: #E2E8F0;
@@ -30,4 +30,31 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #CBD5E1;
+}
+
+/* Infinite Dual Marquee Animation */
+@keyframes scroll-marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.marquee-track-left {
+  display: flex;
+  width: max-content;
+  animation: scroll-marquee-left 30s linear infinite; 
+}
+
+.marquee-track-right {
+  display: flex;
+  width: max-content;
+  animation: scroll-marquee-right 35s linear infinite; 
+}
+
+.marquee-track-left:hover, .marquee-track-right:hover {
+  animation-play-state: paused;
 }

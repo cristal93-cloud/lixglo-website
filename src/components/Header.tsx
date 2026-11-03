@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LixGloLogo } from './LixGloLogo';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MessageCircle } from 'lucide-react';
+import { COMPANY } from '../config/company';
 
 interface HeaderProps {
   onOpenEstimate: () => void;
@@ -54,22 +55,28 @@ export const Header: React.FC<HeaderProps> = ({ onOpenEstimate }) => {
 
         {/* Right: Primary Action */}
         <div className="hidden sm:flex items-center">
-          <button
-            onClick={onOpenEstimate}
-            className="px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white bg-[#020304] hover:bg-neutral-800 rounded-lg transition-all duration-150 cursor-pointer shadow-xs active:scale-[0.99] min-h-[40px] flex items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#020304]"
+          <a
+            href={COMPANY.whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#020304] bg-[#1FD079] hover:opacity-90 rounded-lg transition-all duration-150 cursor-pointer shadow-xs active:scale-[0.99] min-h-[40px] flex items-center justify-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1FD079]"
           >
-            Get an Estimate
-          </button>
+            <MessageCircle size={16} />
+            <span>Talk to LixGlo</span>
+          </a>
         </div>
 
         {/* Mobile Toggle & Quick Action */}
         <div className="flex items-center sm:hidden gap-2">
-          <button
-            onClick={onOpenEstimate}
-            className="px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-[#020304] rounded-md cursor-pointer min-h-[40px] flex items-center justify-center active:scale-[0.99]"
+          <a
+            href={COMPANY.whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3.5 py-2 text-xs font-semibold uppercase tracking-wider text-[#020304] bg-[#1FD079] hover:opacity-90 rounded-md cursor-pointer min-h-[40px] flex items-center justify-center gap-1.5 active:scale-[0.99]"
           >
-            Estimate
-          </button>
+            <MessageCircle size={14} />
+            <span>Talk</span>
+          </a>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-neutral-700 hover:text-black rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B9DD6] cursor-pointer"
@@ -107,15 +114,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenEstimate }) => {
               Estimate
             </a>
             <div className="pt-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenEstimate();
-                }}
-                className="w-full py-3.5 text-center text-sm font-semibold uppercase tracking-wider text-white bg-[#020304] rounded-lg shadow-xs cursor-pointer min-h-[48px] flex items-center justify-center"
+              <a
+                href={COMPANY.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-3.5 text-center text-sm font-semibold uppercase tracking-wider text-[#020304] bg-[#1FD079] hover:opacity-90 rounded-lg shadow-xs cursor-pointer min-h-[48px] flex items-center justify-center gap-2"
               >
-                Get an Estimate
-              </button>
+                <MessageCircle size={18} />
+                <span>Talk to LixGlo</span>
+              </a>
             </div>
           </nav>
         </div>

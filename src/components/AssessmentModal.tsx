@@ -24,6 +24,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
@@ -31,7 +32,6 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
   const type = estimateData?.customerType === 'business' ? 'Business' : 'Home';
   const bill = estimateData?.monthlyBillKes ?? 15000;
 
-  // Direct WhatsApp message with estimate details
   const whatsappText = encodeURIComponent(
     `Hello LixGlo Ventures, I'd like to request a solar assessment for my ${type}.\n\n` +
     `• Average monthly bill: KES ${bill.toLocaleString()}\n` +
@@ -44,10 +44,14 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
 
   const directWhatsappUrl = `https://wa.me/${COMPANY.whatsappNumber}?text=${whatsappText}`;
 
-  const handleSubmitCallback = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmitCallback = () => {
     if (!phone) return;
-    setSubmitted(true);
+    setIsSubmitting(true);
+    
+    setTimeout(() => {
+      setSubmitted(true);
+      setIsSubmitting(false);
+    }, 1200);
   };
 
   return (
@@ -107,7 +111,6 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
               </p>
             </div>
 
-            {/* Quick Sizing Recap */}
             <div className="p-3.5 rounded-xl bg-neutral-50 border border-neutral-200 mb-6 flex items-center justify-between text-xs">
               <div>
                 <span className="text-neutral-500">System:</span>
@@ -119,7 +122,6 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
               </div>
             </div>
 
-            {/* WhatsApp Direct Action */}
             <a
               href={directWhatsappUrl}
               target="_blank"
@@ -137,17 +139,42 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
               </span>
             </div>
 
-            <form onSubmit={handleSubmitCallback} className="space-y-3.5">
+            <iframe name="hidden_iframe" id="hidden_iframe" style={{ display: 'none' }}></iframe>
+
+            <form 
+              // STEP 2: AFTER ACTIVATION, REPLACE EMAIL WITH RANDOM STRING
+              action="https://formsubmit.co/lixglovent20@gmail.com" 
+              method="POST" 
+              // STEP 3: AFTER ACTIVATION, ADD THIS LINE BACK -> target="hidden_iframe"
+              onSubmit={handleSubmitCallback} 
+              className="space-y-3.5"
+            >
+              <input type="hidden" name="_subject" value={`New Solar Estimate Request: ${kw.toFixed(1)}kW ${type}`} />
+              
+              {/* STEP 4: AFTER ACTIVATION, ADD THIS LINE BACK TO HIDE CAPTCHA -> <input type="hidden" name="_captcha" value="false" /> */}
+              
+              <input type="hidden" name="_template" value="table" />
+              
+              {/* Anti-spam honeypot */}
+              <input type="text" name="_honey" style={{ display: 'none' }} />
+              
+              {/* Hidden System Data Fields */}
+              <input type="hidden" name="System_Size" value={`${kw.toFixed(1)} kW`} />
+              <input type="hidden" name="Customer_Type" value={type} />
+              <input type="hidden" name="Monthly_Bill" value={`KES ${bill.toLocaleString()}`} />
+
               <div>
                 <label className="block text-xs font-semibold text-neutral-700 mb-1">
                   Name
                 </label>
                 <input
                   type="text"
+                  name="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. David Mwangi"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm focus:border-[#020304] focus:outline-none"
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm focus:border-[#020304] focus:outline-none disabled:opacity-50"
                 />
               </div>
 
@@ -157,11 +184,13 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
                 </label>
                 <input
                   type="tel"
+                  name="Phone"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+254 7..."
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm font-mono focus:border-[#020304] focus:outline-none"
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm font-mono focus:border-[#020304] focus:outline-none disabled:opacity-50"
                 />
               </div>
 
@@ -171,19 +200,22 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
                 </label>
                 <input
                   type="text"
+                  name="Location"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g. Karen, Nairobi / Nakuru / Kiambu"
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm focus:border-[#020304] focus:outline-none"
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm focus:border-[#020304] focus:outline-none disabled:opacity-50"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full mt-2 py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-white bg-[#020304] hover:bg-neutral-800 rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                disabled={isSubmitting}
+                className="w-full mt-2 py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-white bg-[#020304] hover:bg-neutral-800 rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 <Phone size={14} />
-                <span>Request Call</span>
+                <span>{isSubmitting ? 'Sending...' : 'Request Call'}</span>
               </button>
             </form>
           </div>
