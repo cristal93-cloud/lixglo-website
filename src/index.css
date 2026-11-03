@@ -14,6 +14,7 @@
     font-family: var(--font-sans);
     background-color: #FAFAFA;
     color: #020304;
+    overflow-x: hidden;
   }
 }
 
@@ -46,13 +47,13 @@
 .marquee-track-left {
   display: flex;
   width: max-content;
-  animation: scroll-marquee-left 30s linear infinite; 
+  animation: scroll-marquee-left 30s linear infinite;
 }
 
 .marquee-track-right {
   display: flex;
   width: max-content;
-  animation: scroll-marquee-right 35s linear infinite; 
+  animation: scroll-marquee-right 35s linear infinite;
 }
 
 .marquee-track-left:hover, .marquee-track-right:hover {

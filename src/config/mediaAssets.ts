@@ -33,14 +33,14 @@ export const MEDIA_ASSETS = {
     id: 'residential-media',
     title: 'Residential Solar Solution',
     description: 'High-efficiency home solar system powering daytime appliances and evening lithium storage.',
-    imageUrl: '',
+    imageUrl: '/assets/5.jpg',
     aspectRatio: '16/10',
   },
   commercial: {
     id: 'commercial-media',
-    title: 'Commercial Rooftop Solar',
-    description: 'Rooftop solar installation for Kenyan business offices, factories, and retail facilities.',
-    imageUrl: '',
+    title: 'Commercial Solar',
+    description: 'Solar installation for Kenyan business offices, factories, and retail facilities.',
+    imageUrl: '/assets/25.jpg',
     aspectRatio: '16/10',
   },
   installation: {

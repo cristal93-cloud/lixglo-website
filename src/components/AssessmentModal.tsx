@@ -142,23 +142,17 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
             <iframe name="hidden_iframe" id="hidden_iframe" style={{ display: 'none' }}></iframe>
 
             <form 
-              // STEP 2: AFTER ACTIVATION, REPLACE EMAIL WITH RANDOM STRING
               action="https://formsubmit.co/lixglovent20@gmail.com" 
               method="POST" 
-              // STEP 3: AFTER ACTIVATION, ADD THIS LINE BACK -> target="hidden_iframe"
+              target="hidden_iframe"
               onSubmit={handleSubmitCallback} 
               className="space-y-3.5"
             >
               <input type="hidden" name="_subject" value={`New Solar Estimate Request: ${kw.toFixed(1)}kW ${type}`} />
-              
-              {/* STEP 4: AFTER ACTIVATION, ADD THIS LINE BACK TO HIDE CAPTCHA -> <input type="hidden" name="_captcha" value="false" /> */}
-              
+              <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
-              
-              {/* Anti-spam honeypot */}
               <input type="text" name="_honey" style={{ display: 'none' }} />
               
-              {/* Hidden System Data Fields */}
               <input type="hidden" name="System_Size" value={`${kw.toFixed(1)} kW`} />
               <input type="hidden" name="Customer_Type" value={type} />
               <input type="hidden" name="Monthly_Bill" value={`KES ${bill.toLocaleString()}`} />
