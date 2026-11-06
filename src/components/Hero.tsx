@@ -85,7 +85,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToCalculator }) => {
           {/* Floating Desktop Character (Hidden on Mobile) */}
           <div className="hidden md:block absolute right-0 bottom-0 z-0 pointer-events-none w-[320px] lg:w-[420px] translate-y-4">
             <img
-              src="/assets/Animation.png"
+              src="/assets-converted/Animation.webp"
               alt="LixGlo Solar Expert"
               className="w-full h-auto object-contain drop-shadow-2xl"
             />

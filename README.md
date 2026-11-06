@@ -34,7 +34,7 @@ All business logic, company facts, and assets are separated from the UI componen
 ### 1. Logo Replacement
 - The official logo file should be placed at:
   ```
-  public/assets/LOGO_LINEDESIGN.png
+  public/assets-converted/LOGO_LINEDESIGN.webp
   ```
 - Handled automatically by `src/components/LixGloLogo.tsx` with high-resolution vector fallback.
 

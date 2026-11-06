@@ -1,10 +1,10 @@
 import React from 'react';
 
 const partners = [
-  { name: 'LOFTY-CORBAN',      logo: '/assets/partner1.png' },
-  { name: 'UON SOLAR ACADEMY', logo: '/assets/partner2.png' },
-  { name: 'CHLORIDE EXIDE',    logo: '/assets/partner3.png' },
-  { name: 'The Tala Hospital', logo: '/assets/partner4.png' },
+  { name: 'LOFTY-CORBAN',      logo: '/assets-converted/partner1.webp' },
+  { name: 'UON SOLAR ACADEMY', logo: '/assets-converted/partner2.webp' },
+  { name: 'CHLORIDE EXIDE',    logo: '/assets-converted/partner3.webp' },
+  { name: 'The Tala Hospital', logo: '/assets-converted/partner4.webp' },
 ];
 
 export const Partners = () => {

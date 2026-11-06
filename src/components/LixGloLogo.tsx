@@ -18,7 +18,7 @@ export const LixGloLogo: React.FC<LixGloLogoProps> = ({
   const heightClass = size === 'sm' ? 'h-6' : size === 'lg' ? 'h-10' : 'h-8';
 
   // The official uploaded logo image path
-  const logoSrc = '/assets/LOGO_LINEDESIGN.png';
+  const logoSrc = '/assets-converted/LOGO_LINEDESIGN.webp';
 
   // Container styling: On dark surfaces (like footer), provide a crisp white backing
   // so the black letters (L, G, L) remain 100% visible and true to brand specs

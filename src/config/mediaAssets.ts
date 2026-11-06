@@ -20,11 +20,11 @@ export const MEDIA_ASSETS = {
     imageUrl: '',
     // Marquee array containing all 25 images
     imageUrls: [
-      '/assets/1.jpg', '/assets/2.jpg', '/assets/3.jpg', '/assets/4.jpg', '/assets/5.jpg',
-      '/assets/6.jpg', '/assets/7.jpg', '/assets/8.jpg', '/assets/9.jpg', '/assets/10.jpg',
-      '/assets/11.jpg', '/assets/12.jpg', '/assets/13.jpg', '/assets/14.jpg', '/assets/15.jpg',
-      '/assets/16.jpg', '/assets/17.jpg', '/assets/18.jpg', '/assets/19.jpg', '/assets/20.jpg',
-      '/assets/21.jpg', '/assets/22.jpg', '/assets/23.jpg', '/assets/24.jpg', '/assets/25.jpg'
+      '/assets-converted/1.webp', '/assets-converted/2.webp', '/assets-converted/3.webp', '/assets-converted/4.webp', '/assets-converted/5.webp',
+      '/assets-converted/6.webp', '/assets-converted/7.webp', '/assets-converted/8.webp', '/assets-converted/9.webp', '/assets-converted/10.webp',
+      '/assets-converted/11.webp', '/assets-converted/12.webp', '/assets-converted/13.webp', '/assets-converted/14.webp', '/assets-converted/15.webp',
+      '/assets-converted/16.webp', '/assets-converted/17.webp', '/assets-converted/18.webp', '/assets-converted/19.webp', '/assets-converted/20.webp',
+      '/assets-converted/21.webp', '/assets-converted/22.webp', '/assets-converted/23.webp', '/assets-converted/24.webp', '/assets-converted/25.webp'
     ],
     videoUrl: '',
     aspectRatio: '16/9',
@@ -33,14 +33,14 @@ export const MEDIA_ASSETS = {
     id: 'residential-media',
     title: 'Residential Solar Solution',
     description: 'High-efficiency home solar system powering daytime appliances and evening lithium storage.',
-    imageUrl: '/assets/5.jpg',
+    imageUrl: '/assets-converted/5.webp',
     aspectRatio: '16/10',
   },
   commercial: {
     id: 'commercial-media',
     title: 'Commercial Solar',
     description: 'Solar installation for Kenyan business offices, factories, and retail facilities.',
-    imageUrl: '/assets/25.jpg',
+    imageUrl: '/assets-converted/25.webp',
     aspectRatio: '16/10',
   },
   installation: {
