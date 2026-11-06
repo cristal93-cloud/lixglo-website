@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { X, MessageCircle, Phone, CheckCircle2 } from 'lucide-react';
 import { COMPANY } from '../config/company';
 import { CustomerType } from '../config/solarAssumptions';
@@ -23,8 +23,11 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const lastSubmitTimeRef = useRef<number>(0);
 
   if (!isOpen) return null;
 
@@ -32,22 +35,55 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
   const type = estimateData?.customerType === 'business' ? 'Business' : 'Home';
   const bill = estimateData?.monthlyBillKes ?? 15000;
 
+  // Sanitize and constrain values for WhatsApp pre-filled text
+  const cleanName = name.trim().slice(0, 100);
+  const cleanPhone = phone.trim().slice(0, 30);
+  const cleanLocation = location.trim().slice(0, 120);
+
   const whatsappText = encodeURIComponent(
     `Hello LixGlo Ventures, I'd like to request a solar assessment for my ${type}.\n\n` +
     `• Average monthly bill: KES ${bill.toLocaleString()}\n` +
     `• Estimated system: ${kw.toFixed(1)} kW\n` +
-    (location ? `• Location: ${location}\n` : '') +
-    (name ? `• Name: ${name}\n` : '') +
-    (phone ? `• Phone: ${phone}\n` : '') +
+    (cleanLocation ? `• Location: ${cleanLocation}\n` : '') +
+    (cleanName ? `• Name: ${cleanName}\n` : '') +
+    (cleanPhone ? `• Phone: ${cleanPhone}\n` : '') +
     `Please let me know the next steps.`
   );
 
   const directWhatsappUrl = `https://wa.me/${COMPANY.whatsappNumber}?text=${whatsappText}`;
 
-  const handleSubmitCallback = () => {
-    if (!phone) return;
+  const handleSubmitCallback = (e: React.FormEvent<HTMLFormElement>) => {
+    // 1. Bot honeypot check: If bot filled the hidden honeypot, quietly drop it
+    if (honeypot) {
+      e.preventDefault();
+      setIsSubmitting(true);
+      setTimeout(() => {
+        setSubmitted(true);
+        setIsSubmitting(false);
+      }, 800);
+      return;
+    }
+
+    // 2. Client-side rate-limiting / anti-flood check (minimum 5s between submissions)
+    const now = Date.now();
+    if (now - lastSubmitTimeRef.current < 5000) {
+      e.preventDefault();
+      setErrorMessage('Please wait a moment before submitting again.');
+      return;
+    }
+    lastSubmitTimeRef.current = now;
+
+    // 3. Validation
+    const trimmedPhone = phone.trim();
+    if (!trimmedPhone || trimmedPhone.length < 9) {
+      e.preventDefault();
+      setErrorMessage('Please enter a valid phone number (at least 9 digits).');
+      return;
+    }
+
+    setErrorMessage('');
     setIsSubmitting(true);
-    
+
     setTimeout(() => {
       setSubmitted(true);
       setIsSubmitting(false);
@@ -79,7 +115,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
               Request Received
             </h3>
             <p className="text-sm text-neutral-600 leading-relaxed max-w-sm mx-auto">
-              A LixGlo solar specialist will call you at <strong className="text-black font-mono">{phone}</strong> to discuss your site and energy needs.
+              A LixGlo solar specialist will call you at <strong className="text-black font-mono">{cleanPhone || phone}</strong> to discuss your site and energy needs.
             </p>
             <div className="pt-4 flex flex-col gap-2">
               <a
@@ -139,7 +175,12 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
               </span>
             </div>
 
-            <iframe name="hidden_iframe" id="hidden_iframe" style={{ display: 'none' }}></iframe>
+            <iframe 
+              name="hidden_iframe" 
+              id="hidden_iframe" 
+              title="Form Submission Target" 
+              style={{ display: 'none' }}
+            />
 
             <form 
               action="https://formsubmit.co/lixglovent20@gmail.com" 
@@ -151,7 +192,18 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
               <input type="hidden" name="_subject" value={`New Solar Estimate Request: ${kw.toFixed(1)}kW ${type}`} />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
-              <input type="text" name="_honey" style={{ display: 'none' }} />
+              
+              {/* Bot protection honeypot with accessibility safeguards */}
+              <input 
+                type="text" 
+                name="_honey" 
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ display: 'none' }} 
+              />
               
               <input type="hidden" name="System_Size" value={`${kw.toFixed(1)} kW`} />
               <input type="hidden" name="Customer_Type" value={type} />
@@ -164,6 +216,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
                 <input
                   type="text"
                   name="Name"
+                  maxLength={100}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. David Mwangi"
@@ -180,6 +233,9 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
                   type="tel"
                   name="Phone"
                   required
+                  maxLength={30}
+                  pattern="^[\d\s+\-()]{9,30}$"
+                  title="Please enter a valid phone number with at least 9 digits"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+254 7..."
@@ -195,6 +251,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
                 <input
                   type="text"
                   name="Location"
+                  maxLength={120}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g. Karen, Nairobi / Nakuru / Kiambu"
@@ -202,6 +259,10 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
                   className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 text-[#020304] placeholder-neutral-400 text-sm focus:border-[#020304] focus:outline-none disabled:opacity-50"
                 />
               </div>
+
+              {errorMessage && (
+                <p className="text-xs text-red-600 font-medium">{errorMessage}</p>
+              )}
 
               <button
                 type="submit"

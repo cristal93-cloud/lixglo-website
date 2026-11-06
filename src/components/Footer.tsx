@@ -13,6 +13,12 @@ const SOCIAL_LINKS = [
 ];
 
 export const Footer: React.FC = () => {
+  // Defensive helper to prevent javascript: or unsafe URI execution
+  const isSafeUrl = (url?: string): boolean => {
+    if (!url) return false;
+    return /^https?:\/\//i.test(url);
+  };
+
   return (
     <footer id="contact" className="bg-[#020304] text-neutral-300 pt-16 pb-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +101,7 @@ export const Footer: React.FC = () => {
                 <span>Social:</span>
                 <div className="flex items-center gap-2">
                   {SOCIAL_LINKS.map((item) => (
-                    item.url ? (
+                    item.url && isSafeUrl(item.url) ? (
                       <a
                         key={item.name}
                         href={item.url}

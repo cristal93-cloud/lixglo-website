@@ -7,13 +7,19 @@ interface MediaPlaceholderProps {
   variant?: 'hero' | 'residential' | 'commercial' | 'installation';
 }
 
+// Ensure URLs only use approved, secure schemes
+function isSafeMediaUrl(url?: string): boolean {
+  if (!url) return false;
+  return url.startsWith('/') || /^https?:\/\//i.test(url) || url.startsWith('data:image/');
+}
+
 export const MediaPlaceholder: React.FC<MediaPlaceholderProps> = ({
   media,
   className = '',
   variant = 'hero',
 }) => {
   // If user provided a real video URL, render high-definition video player
-  if (media.videoUrl) {
+  if (media.videoUrl && isSafeMediaUrl(media.videoUrl)) {
     return (
       <div className={`relative overflow-hidden rounded-2xl bg-neutral-100 ${className}`}>
         <video
@@ -21,7 +27,7 @@ export const MediaPlaceholder: React.FC<MediaPlaceholderProps> = ({
           className="w-full h-full object-cover"
           controls
           playsInline
-          poster={media.imageUrl}
+          poster={isSafeMediaUrl(media.imageUrl) ? media.imageUrl : undefined}
         />
       </div>
     );
@@ -29,10 +35,10 @@ export const MediaPlaceholder: React.FC<MediaPlaceholderProps> = ({
 
   // If user provided an array of images, render the True Full-Width Dual Marquee
   if (media.imageUrls && media.imageUrls.length > 0) {
-    // Split the images in half for two rows
-    const midpoint = Math.ceil(media.imageUrls.length / 2);
-    const topRow = media.imageUrls.slice(0, midpoint);
-    const bottomRow = media.imageUrls.slice(midpoint);
+    const safeImages = media.imageUrls.filter(isSafeMediaUrl);
+    const midpoint = Math.ceil(safeImages.length / 2);
+    const topRow = safeImages.slice(0, midpoint);
+    const bottomRow = safeImages.slice(midpoint);
 
     // Duplicate both arrays so they loop seamlessly without gaps
     const topRowDuplicated = [...topRow, ...topRow];
@@ -76,7 +82,7 @@ export const MediaPlaceholder: React.FC<MediaPlaceholderProps> = ({
   }
 
   // If user provided a real single image file, render clean resilient image
-  if (media.imageUrl) {
+  if (media.imageUrl && isSafeMediaUrl(media.imageUrl)) {
     return (
       <div className={`relative overflow-hidden rounded-2xl bg-neutral-100 ${className}`}>
         <img
