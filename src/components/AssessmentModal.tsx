@@ -61,7 +61,7 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
     setIsSubmitting(true);
 
     try {
-      // Direct JSON POST to FormSubmit ensures Name, Phone, and Location are ALWAYS included
+      // Official FormSubmit AJAX API — eliminates hidden iframe browser blocking
       const response = await fetch(`https://formsubmit.co/ajax/${COMPANY.email}`, {
         method: 'POST',
         headers: {
@@ -86,15 +86,14 @@ export const AssessmentModal: React.FC<AssessmentModalProps> = ({
       if (response.ok && (data.success === 'true' || data.success === true)) {
         setSubmitted(true);
       } else {
-        // If FormSubmit asks for domain activation on a new URL:
         if (data.message && data.message.toLowerCase().includes('confirm')) {
-          setErrorMessage('FormSubmit requires domain activation: check the Spam folder of lixglovent20@gmail.com and click Confirm.');
+          setErrorMessage('FormSubmit requires activation: check your inbox/spam for an activation link from FormSubmit, then try again.');
         } else {
-          setErrorMessage(data.message || 'Unable to submit online. Please use the WhatsApp button below.');
+          setErrorMessage(data.message || 'Unable to submit online. Please use WhatsApp below.');
         }
       }
     } catch {
-      setErrorMessage('Network connection error. Please connect directly via WhatsApp below.');
+      setErrorMessage('Network error submitting request. Please connect directly via WhatsApp below.');
     } finally {
       setIsSubmitting(false);
     }
