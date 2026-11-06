@@ -5,6 +5,7 @@ import { SolarCalculator } from './components/SolarCalculator';
 import { CustomerTypes } from './components/CustomerTypes';
 import { ServicesJourney } from './components/ServicesJourney';
 import { CredibilityStats } from './components/CredibilityStats';
+import { Partners } from './components/Partners'; // <-- ADD THIS
 import { HowItWorks } from './components/HowItWorks';
 import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
@@ -72,10 +73,13 @@ export default function App() {
         {/* 5. Real Credibility & Plain Facts (2017, 50+, T1–T3, Kenya) */}
         <CredibilityStats />
 
-        {/* 6. Simple 3-Step How It Works */}
+        {/* 6. Trusted Partners / Client Logos */}
+        <Partners />
+
+        {/* 7. Simple 3-Step How It Works */}
         <HowItWorks />
 
-        {/* 7. Clear Final Call To Action */}
+        {/* 8. Clear Final Call To Action */}
         <FinalCTA onOpenEstimate={scrollToCalculator} />
       </main>
 
